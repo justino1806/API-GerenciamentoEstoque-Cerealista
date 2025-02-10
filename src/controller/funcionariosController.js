@@ -56,7 +56,7 @@ export async function deletarFuncionarioController(req, res) {
         }
         const id = req.params.id.replace('funcionarios:', '');
         console.log('ID para deletar:', id);
-
+        
         // Busca o funcionário para obter o caminho da imagem
         const [funcionario] = await conexao.execute('SELECT imagem_funcionario FROM funcionarios WHERE id_funcionario = ?', [id]);
         

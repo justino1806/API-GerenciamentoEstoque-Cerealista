@@ -2,6 +2,8 @@ import conectarAoBanco from "../config/dbconfig.js";
 
 const conexao = await conectarAoBanco();
 /* console.log('Conexão com o banco de dados estabelecida com sucesso!'); */
+
+
   // Função para listar todos os funcionários
   export async function listarFuncionarios(filtros = {}) {
       try {
@@ -149,13 +151,17 @@ export async function atualizarFuncionario(id_funcionario, dados) {
 
 export async function deletarFuncionario(id_funcionario) {
     try {
-        // Primeiro deleta os pedidos relacionados
-        const queryPedidos = `DELETE FROM pedidos WHERE id_funcionario = ?`;
-        await conexao.execute(queryPedidos, [id_funcionario]);
+        // Busca as movimentações associadas ao funcionário
+        await conexao.execute('DELETE FROM movimentacao_estoque WHERE id_pedido IN (SELECT id_pedido FROM pedidos WHERE id_funcionario = ?)', [id_funcionario]);
 
-        // Depois deleta o funcionário
-        const queryFuncionario = `DELETE FROM funcionarios WHERE id_funcionario = ?`;
-        const [resultado] = await conexao.execute(queryFuncionario, [id_funcionario]);
+        // Deleta os itens dos pedidos
+        await conexao.execute('DELETE FROM pedido_item WHERE id_pedido IN (SELECT id_pedido FROM pedidos WHERE id_funcionario = ?)', [id_funcionario]);
+
+        // Deleta os pedidos
+        await conexao.execute('DELETE FROM pedidos WHERE id_funcionario = ?', [id_funcionario]);
+
+        // Deleta o funcionário
+        const [resultado] = await conexao.execute('DELETE FROM funcionarios WHERE id_funcionario = ?', [id_funcionario]);
         
         return resultado;
     } catch (erro) {
