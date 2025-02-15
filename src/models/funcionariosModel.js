@@ -67,12 +67,12 @@ const conexao = await conectarAoBanco();
         }
   }
     // Função para adicionar um novo funcionário
-  export async function adicionarFuncionario(cpf, data_admissao, rua, numero, complemento, bairro, cidade, estado, cep, senha, telefone_funcionario, nome_funcionario, nivel_acesso, cargo, imagem_funcionario) {
+  export async function adicionarFuncionario(cpf, data_admissao, rua, numero, complemento, bairro, cidade, estado, cep, senha, telefone_funcionario, nome_funcionario, nivel_acesso, cargo, imagem_funcionario, email) {
       const query = `
-          INSERT INTO funcionarios (cpf, data_admissao, rua, numero, complemento, bairro, cidade, estado, cep, senha, telefone_funcionario, nome_funcionario, nivel_acesso, cargo, imagem_funcionario)
-          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+          INSERT INTO funcionarios (cpf, data_admissao, rua, numero, complemento, bairro, cidade, estado, cep, senha, telefone_funcionario, nome_funcionario, nivel_acesso, cargo, imagem_funcionario, email)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `;
-      const [resultado] = await conexao.execute(query, [cpf, data_admissao, rua, numero, complemento, bairro, cidade, estado, cep, senha, telefone_funcionario, nome_funcionario, nivel_acesso, cargo, imagem_funcionario]);
+      const [resultado] = await conexao.execute(query, [cpf, data_admissao, rua, numero, complemento, bairro, cidade, estado, cep, senha, telefone_funcionario, nome_funcionario, nivel_acesso, cargo, imagem_funcionario, email]);
       return resultado;
   }
 

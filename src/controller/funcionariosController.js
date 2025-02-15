@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import bcrypt from 'bcrypt';
 import conectarAoBanco from "../config/dbconfig.js"; // Certifique-se de que esta linha está presente
 import { listarFuncionarios, adicionarFuncionario, atualizarFuncionario, deletarFuncionario } from "../models/funcionariosModel.js";
 import { fileURLToPath } from 'url';
@@ -24,10 +25,11 @@ export async function listarFuncionariosController(req, res) {
 }
 
 export async function adicionarFuncionarioController(req, res) {
-    const { cpf, data_admissao, rua, numero, complemento, bairro, cidade, estado, cep, senha, telefone_funcionario, nome_funcionario, nivel_acesso, cargo/* , imagem_funcionario */ } = req.body;
+    const { cpf, data_admissao, rua, numero, complemento, bairro, cidade, estado, cep, senha, telefone_funcionario, nome_funcionario, nivel_acesso, cargo, email /* , imagem_funcionario */ } = req.body;
     const imagem_funcionario = req.file ? req.file.path : null; // Obtém o caminho da imagem se enviada
+    const senhaHash = bcrypt.hashSync(senha, 10);
     try {
-        const resultado = await adicionarFuncionario(cpf, data_admissao, rua, numero, complemento, bairro, cidade, estado, cep, senha, telefone_funcionario, nome_funcionario, nivel_acesso, cargo, imagem_funcionario);
+        const resultado = await adicionarFuncionario(cpf, data_admissao, rua, numero, complemento, bairro, cidade, estado, cep, senhaHash, telefone_funcionario, nome_funcionario, nivel_acesso, cargo, imagem_funcionario, email);
         res.status(201).json({ message: 'Funcionário adicionado com sucesso!', resultado });
     } catch (erro) {
         res.status(500).json({ message: 'Erro ao adicionar funcionário', erro: erro.message });
@@ -60,7 +62,7 @@ export async function deletarFuncionarioController(req, res) {
         // Busca o funcionário para obter o caminho da imagem
         const [funcionario] = await conexao.execute('SELECT imagem_funcionario FROM funcionarios WHERE id_funcionario = ?', [id]);
         
-        if (funcionario.length > 0) {
+        if (funcionario.length > 0 && funcionario[0].imagem_funcionario) {
             const caminhoImagem = funcionario[0].imagem_funcionario;
 
             // Remove a imagem do sistema de arquivos

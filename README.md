@@ -13,6 +13,7 @@ API REST desenvolvida para gerenciamento de estoque de uma cerealista, permitind
     - [Estoque](#estoque)
     - [Categorias](#categorias)
     - [Upload de Imagens](#upload-de-imagens)
+    - [Autenticação](#autenticação)
 4. [Respostas da API](#-respostas-da-api)
 5. [Documentação Técnica](#%EF%B8%8F-Documentação-Técnica)
     - [Diagrama de Relacionamentos](#Diagrama-de-Relacionamentos)
@@ -36,11 +37,14 @@ src/
 │   ├── funcionariosModel.js
 │   ├── participanteModel.js
 │   └── pedidosModel.js
-└── routes/
+├── routes/
 │   ├── estoqueRoutes.js
 │   ├── funcionariosRoutes.js
 │   ├── participanteRoutes.js
 │   └── pedidosRoutes.js
+├── scripts/
+│   ├── showPasswords.js  # Exibe senhas para fins de depuração
+│   └── updatePasswords.js  # Atualiza senhas caso tenha antigas sem criptografia no banco
 └── uploads/
     └── produtos/      # Pasta para armazenar as imagens dos produtos
     └── funcionarios/    # Pasta para armazenar as imagens dos funcionários
@@ -324,6 +328,45 @@ axios.post('/api/produtos', formData, {
         'Content-Type': 'multipart/form-data'
     }
 });
+```
+### Autenticação
+#### Login
+```http
+POST /api/auth/login
+```
+-> Corpo da requisição:
+```json
+{
+    "email": "funcionario@email.com",
+    "senha": "123456"
+}
+```
+##### Resposta:
+```javascript
+{
+    "token": "eyJhbGciOiJIUzI1...", // Token JWT
+    "funcionario": {
+        "id": 1,
+        "nome": "Nome Funcionario",
+        "nivel_acesso": 1
+    }
+}
+```
+#### Logout
+```http
+POST /api/auth/logout
+```
+##### Header necessário:
+```javascript
+Authorization: Bearer [token-do-usuario]
+```
+### Níveis de Acesso
+- 1: Administrador (necessário para gerenciar funcionários)
+- 2: Vendedor (necessário para usar as demais funções)
+### Autenticação de Rotas
+##### Todas as rotas (exceto o login) requetem o token no header
+```header
+Authorization: Bearer [token-do-usuario]
 ```
 ## 🔄 Respostas da API
 
