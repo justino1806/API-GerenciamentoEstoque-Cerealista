@@ -1,0 +1,127 @@
+-- Criando o banco de dados e selecionando o banco de dados --
+CREATE DATABASE cerealista_souza;
+USE cerealista_souza;
+
+-- Tabelas --
+
+CREATE TABLE funcionarios (
+    id_funcionario INT(5) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    cpf VARCHAR(11) NOT NULL, 
+    data_admissao DATE NOT NULL,
+    rua VARCHAR(100) NOT NULL,
+    numero INT NOT NULL,
+    complemento VARCHAR(50), -- opcional,
+    bairro VARCHAR(50) NOT NULL,
+    cidade VARCHAR(50) NOT NULL,
+    estado VARCHAR(2) NOT NULL,
+    cep VARCHAR(9) NOT NULL,
+    senha VARCHAR(60) NOT NULL,
+    email VARCHAR(100) NOT NULL,  -- Necessario para login --
+    token VARCHAR(255),  -- Necessario para login/Token de confirmacao --
+    telefone_funcionario VARCHAR(15) NOT NULL,
+    nome_funcionario VARCHAR(100) NOT NULL,
+    nivel_acesso INT NOT NULL,
+    cargo VARCHAR(50) NOT NULL,
+    imagem_funcionario VARCHAR(80), --aumentei a quantidade de caracteres para 80 e pode ser alterado novamente depois --
+    UNIQUE (telefone_funcionario),  -- Adicionando unicidade para telefone --
+    UNIQUE (cpf)  -- Adicionando unicidade para CPF --
+    UNIQUE (email)  -- Adicionando unicidade para email --
+);
+
+CREATE TABLE categoria (
+    id_categoria INT(5) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    nome_categoria VARCHAR(30) NOT NULL
+);
+
+CREATE TABLE tipo_movimentacao (
+    id_tipo_movimentacao CHAR(1) NOT NULL PRIMARY KEY,
+    descricao VARCHAR(50) NOT NULL
+);
+
+-- Inserindo valores na tabela tipo_movimentacao --
+INSERT INTO tipo_movimentacao (id_tipo_movimentacao, descricao) VALUES 
+('E', 'Entrada'),
+('S', 'Saída');
+
+CREATE TABLE participante (
+    id_participante INT(5) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    nome_participante VARCHAR(100) NOT NULL,
+    telefone_participante VARCHAR(15) NOT NULL,
+    rua VARCHAR(100) NOT NULL,
+    numero INT NOT NULL,
+    complemento VARCHAR(50), -- opcional,
+    bairro VARCHAR(50) NOT NULL,
+    cidade VARCHAR(50) NOT NULL,
+    estado VARCHAR(2) NOT NULL,
+    cep VARCHAR(9) NOT NULL,
+    cnpj VARCHAR(20) NOT NULL,
+    cpf VARCHAR(11) NOT NULL,
+    UNIQUE (telefone_participante),  -- Adicionando unicidade para telefone --
+    UNIQUE (cpf),  -- Adicionando unicidade para CPF --
+    UNIQUE (cnpj, cpf) -- Adicionando unicidade para CNPJ e CPF --
+);
+
+CREATE TABLE produto (
+    id_produto INT(5) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    id_categoria INT(5) NOT NULL,
+    preco_produto DECIMAL(10,2) NOT NULL,
+    nome VARCHAR(50) NOT NULL,
+    descricao VARCHAR(200), -- opcional,
+    imagem_produto VARCHAR(80), --aumentei a quantidade de caracteres para 80 e pode ser alterado novamente depois --
+    id_participante INT(5) NOT NULL,
+    FOREIGN KEY (id_categoria) REFERENCES categoria(id_categoria),
+    FOREIGN KEY (id_participante) REFERENCES participante(id_participante)
+);
+
+CREATE TABLE estoque (
+    id_estoque INT(5) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    id_produto INT(5) NOT NULL,
+    qntd_produto INT NOT NULL,
+    data_entrada DATE, -- opcional,
+    preco_medio DECIMAL(10,2) NOT NULL,
+    status_produto VARCHAR(50) NOT NULL,
+    FOREIGN KEY (id_produto) REFERENCES produto(id_produto)
+);
+
+CREATE TABLE movimentacao_estoque (
+    id_movimentacao INT(5) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    id_produto INT(5) NOT NULL,
+    id_estoque INT(5) NOT NULL,
+    preco_total DECIMAL(10,2) NOT NULL,
+    id_tipo_movimentacao CHAR(1) NOT NULL,
+    id_pedido INT NOT NULL,
+    id_pedido_item INT NOT NULL,
+    quantidade DECIMAL(10,2) NOT NULL,
+    data DATE NOT NULL,
+    FOREIGN KEY (id_produto) REFERENCES produto(id_produto),
+    FOREIGN KEY (id_estoque) REFERENCES estoque(id_estoque),
+    FOREIGN KEY (id_tipo_movimentacao) REFERENCES tipo_movimentacao(id_tipo_movimentacao),
+    FOREIGN KEY (id_pedido) REFERENCES pedidos(id_pedido), -- Adicionando a chave estrangeira para a tabela pedidos, estava faltando --
+    FOREIGN KEY (id_pedido_item) REFERENCES pedido_item(id_pedido_item) -- Adicionando a chave estrangeira para a tabela pedido_item, estava faltando --
+);
+
+CREATE TABLE pedidos (
+    id_pedido INT AUTO_INCREMENT PRIMARY KEY,
+    id_tipo_movimentacao CHAR(1) NOT NULL,
+    data_pedido DATE NOT NULL,
+    id_participante INT(5) NOT NULL,
+    id_funcionario INT(5) NOT NULL,
+    valor_pedido DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (id_tipo_movimentacao) REFERENCES tipo_movimentacao(id_tipo_movimentacao),
+    FOREIGN KEY (id_participante) REFERENCES participante(id_participante),
+    FOREIGN KEY (id_funcionario) REFERENCES funcionarios(id_funcionario)
+);
+
+CREATE TABLE pedido_item (
+    id_pedido_item INT AUTO_INCREMENT PRIMARY KEY,
+    id_pedido INT NOT NULL,
+    item INT NOT NULL,
+    id_produto INT(5) NOT NULL,
+    quantidade DECIMAL(10,2) NOT NULL,
+    valor_unitario DECIMAL(10,2) NOT NULL,
+    valor_total DECIMAL(10,2) NOT NULL,
+    data_validade DATE, -- opcional,
+    FOREIGN KEY (id_pedido) REFERENCES pedidos(id_pedido),
+    FOREIGN KEY (id_produto) REFERENCES produto(id_produto)
+);
+

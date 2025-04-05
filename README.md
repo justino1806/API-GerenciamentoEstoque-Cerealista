@@ -73,6 +73,12 @@ DB_HOST=localhost
 DB_USER=seu_usuario
 DB_PASSWORD=sua_senha
 DB_DATABASE=cerealista_souza
+
+JWT_SECRET=senha_da_criptografia
+
+EMAIL_USER=seu_email
+EMAIL_PASSWORD=senha_de_app
+
 PORT=3000
 ```
 4. Configure o diretório de uploads

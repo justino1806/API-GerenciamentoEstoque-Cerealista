@@ -1,5 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import cors from 'cors';
 import bodyParser from 'body-parser';
 import estoqueRoutes from './src/routes/estoqueRoutes.js';
 import funcionariosRoutes from './src/routes/funcionariosRoutes.js';
@@ -11,12 +12,19 @@ import { verificaToken, verificaNivelAcesso } from './src/auth/authMiddleware.js
 
 dotenv.config();
 
+
 const app = express();
+app.use(cors({
+  origin: '*', // URL do frontend
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
 
 // Configura o body-parser para processar JSON
 app.use(bodyParser.json());
 // Rotas públicas
 app.use('/api/auth', authRoutes);
+app.use('/uploads', express.static('uploads'));
 
 // Rotas protegidas
 app.use('/api/estoque', verificaToken, estoqueRoutes);
@@ -26,6 +34,8 @@ app.use('/api/participante', verificaToken, participanteRoutes);
 app.use('/api/pedidos', verificaToken, pedidosRoutes);
 
 const PORT = process.env.PORT || 3000;
+
+
 
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
