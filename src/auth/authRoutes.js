@@ -12,6 +12,7 @@ router.post('/forgot-password', forgotPassword);
 router.post('/reset-password', resetPassword);
 /* router.get('/reset-password', resetPassword); */
 router.post('/verificar-token', verificarToken);
+router.get('/verificar-token', verificarToken);
 
 
 

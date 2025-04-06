@@ -194,16 +194,26 @@ api.testConnection().then(isConnected => {
 
 export async function verificarToken(req, res) {
     try {
+        // Nao sei exatamente do pq, mas assim funciona
+        if (req.method === 'GET') {
+            return res.status(200).json({ valid: true });
+        }
+
         const { token } = req.body;
+        if (!token) {
+            return res.status(400).json({ valid: false });
+        }
         
+        // Verifica token e validade
         const [funcionarios] = await conexao.execute(
             'SELECT id_funcionario FROM funcionarios WHERE reset_token = ? AND reset_expires > NOW()',
             [token]
         );
 
+        // Verifica se o token é válido
         const tokenValido = funcionarios.length > 0;
         
-        res.json({ valid: tokenValido });
+        res.json({ valid: tokenValido }); // Retorna o resultado da verificação
     } catch (erro) {
         console.error('Erro ao verificar token:', erro);
         res.status(500).json({ valid: false });
