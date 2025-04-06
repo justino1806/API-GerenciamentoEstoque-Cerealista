@@ -53,7 +53,8 @@ export async function login(req, res) {
             funcionario: {
                 id: funcionario.id_funcionario,
                 nome: funcionario.nome_funcionario,
-                nivel_acesso: funcionario.nivel_acesso
+                nivel_acesso: funcionario.nivel_acesso,
+                imagem_funcionario: funcionario.imagem_funcionario
             }
         });
     } catch (erro) {
