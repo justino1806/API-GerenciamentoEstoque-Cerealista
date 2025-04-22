@@ -14,6 +14,8 @@ export async function verificaToken(req, res, next) {
     try {
         // Verifica se o token é válido
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        console.log('Token decodificado:', decoded);
+        console.log('Token expirado?', decoded.exp < Date.now() / 1000);
         
         // Verifica se o token existe no banco
         const [funcionarios] = await conexao.execute(

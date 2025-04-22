@@ -16,6 +16,7 @@ const conexao = await conectarAoBanco();
                   nivel_acesso,
                   telefone_funcionario,
                   cidade,
+                  email,
                   estado
               FROM funcionarios
               WHERE 1=1
@@ -78,7 +79,7 @@ const conexao = await conectarAoBanco();
 
 export async function atualizarFuncionario(id_funcionario, dados) {
     try {
-        let query = 'UPDATE funcionarios SET';
+        let query = 'UPDATE funcionarios SET ';
         const valores = [];
         const campos = [];
 
@@ -110,6 +111,10 @@ export async function atualizarFuncionario(id_funcionario, dados) {
             campos.push(' bairro = ?');
             valores.push(dados.bairro);
         }
+        if (dados.estado) {
+            campos.push('estado = ?');
+            valores.push(dados.estado);
+        }
         if (dados.cep) {
             campos.push(' cep = ?');
             valores.push(dados.cep);
@@ -137,6 +142,10 @@ export async function atualizarFuncionario(id_funcionario, dados) {
         if (dados.imagem_funcionario) {
             campos.push(' imagem_funcionario = ?');
             valores.push(dados.imagem_funcionario);
+        }
+        // Verifica se há campos para atualizar
+        if (campos.length === 0) {
+            throw new Error('Nenhum campo para atualizar');
         }
 
         query += campos.join(',') + ' WHERE id_funcionario = ?';
@@ -168,3 +177,10 @@ export async function deletarFuncionario(id_funcionario) {
         throw new Error('Erro ao deletar funcionário: ' + erro.message);
     }
 }
+
+export async function listarFuncionarioPorId(id) {
+    const query = `SELECT * FROM funcionarios WHERE id_funcionario = ?`;
+    const [funcionario] = await conexao.execute(query, [id]);
+    return funcionario[0];
+}
+

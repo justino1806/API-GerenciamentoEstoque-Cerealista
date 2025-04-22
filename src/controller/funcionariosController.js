@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import bcrypt from 'bcrypt';
 import conectarAoBanco from "../config/dbconfig.js"; // Certifique-se de que esta linha está presente
-import { listarFuncionarios, adicionarFuncionario, atualizarFuncionario, deletarFuncionario } from "../models/funcionariosModel.js";
+import { listarFuncionarios, adicionarFuncionario, atualizarFuncionario, deletarFuncionario, listarFuncionarioPorId } from "../models/funcionariosModel.js";
 import { fileURLToPath } from 'url';
 
 let conexao;
@@ -88,6 +88,19 @@ export async function deletarFuncionarioController(req, res) {
         console.log('Erro ao deletar funcionário:', erro);
         res.status(500).json({ 
             message: 'Erro ao deletar funcionário', 
+            erro: erro.message 
+        });
+    }
+}
+
+export async function listarFuncionarioPorIdController(req, res) {
+    try {
+        const id = req.params.id;
+        const funcionario = await listarFuncionarioPorId(id);
+        res.status(200).json(funcionario);
+    } catch (erro) {
+        res.status(500).json({ 
+            message: 'Erro ao buscar funcionário', 
             erro: erro.message 
         });
     }
