@@ -2,7 +2,7 @@ import conectarAoBanco from '../config/dbconfig.js';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { /* registrarMovimentacao, */ listarProdutos, adicionarProduto, listarMovimentacoes, deletarProduto, atualizarProduto } from "../models/estoqueModel.js";
+import { /* registrarMovimentacao, */ listarProdutos, adicionarProduto, listarMovimentacoes, deletarProduto, atualizarProduto, visualizarProdutoPorId } from "../models/estoqueModel.js";
 
 let conexao;
 
@@ -124,3 +124,16 @@ export async function deletarProdutoController(req, res) {
     }
 }
 
+export async function visualizarProdutoPorIdController(req, res) {
+    try {
+        const id = req.params.id.replace('produtos:', '');
+        const produto = await visualizarProdutoPorId(id);
+        res.status(200).json(produto);
+    } catch (erro) {
+        console.log('Erro ao visualizar produto:', erro);
+        res.status(500).json({
+            message: 'Erro ao visualizar produto',
+            erro: erro.message
+        });
+    }
+}

@@ -1,5 +1,5 @@
 import express from 'express';
-import { /* registrarMovimentacaoController, */ listarProdutosController, adicionarProdutoController, listarMovimentacoesController, atualizarProdutoController, deletarProdutoController } from '../controller/estoqueController.js';
+import { /* registrarMovimentacaoController, */ listarProdutosController, adicionarProdutoController, listarMovimentacoesController, atualizarProdutoController, deletarProdutoController, visualizarProdutoPorIdController } from '../controller/estoqueController.js';
 import upload from '../config/uploadConfig.js';
 
 const router = express.Router();
@@ -8,6 +8,7 @@ const router = express.Router();
 router.get('/movimentacao', listarMovimentacoesController); // Listar histórico de movimentações
 
 router.get('/produtos', listarProdutosController); // Listar produtos
+router.get('/produtos/:id', visualizarProdutoPorIdController) // Visualizar produto por ID
 router.post('/produtos', upload.single('imagemProduto'), adicionarProdutoController); // Adicionar novo produto com upload de imagem
 /* router.post('/produtos', adicionarProdutoController); */
 router.put('/:id', atualizarProdutoController); // Atualizar produto

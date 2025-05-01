@@ -64,7 +64,7 @@ const conexao = await conectarAoBanco();
     }
 } */
 
-    export async function listarMovimentacoes(filtros = {}) {
+export async function listarMovimentacoes(filtros = {}) {
     try {
         let query = `
             SELECT 
@@ -144,7 +144,8 @@ export async function listarProdutos(filtros = {}) {
                 p.imagem_produto,
                 c.nome_categoria,
                 e.qntd_produto,
-                e.status_produto
+                e.status_produto,
+                e.data_entrada
             FROM produto p
             INNER JOIN categoria c ON p.id_categoria = c.id_categoria
             INNER JOIN estoque e ON p.id_produto = e.id_produto
@@ -195,9 +196,9 @@ export async function adicionarProduto(nome, preco_produto, descricao, imagem_pr
             VALUES (?, ?, ?, ?, ?, ?)
         `;
         const [resultadoProduto] = await conexao.execute(queryProduto, [nome, preco_produto, descricao, imagem_produto, id_categoria, id_participante]);
-        
+
         // Cria registro inicial no estoque
-        
+
         const queryEstoque = `
             INSERT INTO estoque (id_produto, qntd_produto, data_entrada, preco_medio, status_produto)
             VALUES (?, 0, CURDATE(), ?, 'Indisponível')
@@ -270,11 +271,11 @@ export async function deletarProduto(id_produto) {
         // Primeiro deleta o relacionamento com produto_item
         const queryProdutoItem = `DELETE FROM pedido_item WHERE id_produto = ?`;
         await conexao.execute(queryProdutoItem, [id_produto]);
-        
+
         // Depois deleta o relacionamento com movimentacao_estoque
         const queryMovimentacao = `DELETE FROM movimentacao_estoque WHERE id_produto = ?`;
         await conexao.execute(queryMovimentacao, [id_produto]);
-        
+
         // Depois deleta o registro do estoque
         const queryEstoque = `DELETE FROM estoque WHERE id_produto = ?`;
         await conexao.execute(queryEstoque, [id_produto]);
@@ -282,11 +283,33 @@ export async function deletarProduto(id_produto) {
         // Por último deleta o produto
         const queryProduto = `DELETE FROM produto WHERE id_produto = ?`;
         const [resultado] = await conexao.execute(queryProduto, [id_produto]);
-        
+
         return resultado;
     } catch (erro) {
         throw new Error('Erro ao deletar produto: ' + erro.message);
     }
 }
 
-
+export async function visualizarProdutoPorId(id) {
+    try {
+        const query = `
+                SELECT 
+                    p.*,
+                    c.nome_categoria,
+                    part.nome_participante,
+                    e.qntd_produto,
+                    e.data_entrada,
+                    e.status_produto
+                FROM produto p
+                INNER JOIN categoria c ON p.id_categoria = c.id_categoria
+                INNER JOIN participante part ON p.id_participante = part.id_participante
+                INNER JOIN estoque e ON p.id_produto = e.id_produto
+                WHERE p.id_produto = ?
+            `;
+        const [produto] = await conexao.execute(query, [id]);
+        return produto[0];
+    } catch (error) {
+        throw new Error('Erro ao visualizar produto por ID: ' + error.message);
+        
+    }
+}
