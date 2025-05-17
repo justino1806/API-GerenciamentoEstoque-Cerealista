@@ -107,7 +107,7 @@ export async function forgotPassword(req, res) {
         );
 
         // Envia email
-        const resetUrl = `http://127.0.0.1:5500/index.html?token=${resetToken}`; // TROCAR ISSO EM PRODUÇÃO
+        const resetUrl = `esqueci-a-senha.vercel.app?token=${resetToken}`; 
         const htmlEmail = `
             <a href="${resetUrl}" class="button" style="background: #208c12; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; display: inline-block; margin: 20px 0;">
                 Resetar Senha

@@ -1,10 +1,6 @@
 import multer from 'multer';
 import path from 'path';
 
-// Crie esses diretórios se eles não existirem ainda
-// src\uploads\produtos\
-// src\uploads\funcionarios\
-
 // Configuração do armazenamento
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
