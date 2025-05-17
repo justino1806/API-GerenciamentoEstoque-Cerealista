@@ -1,0 +1,53 @@
+Licença de Uso Personalizada - API de Gerenciamento de Estoque  
+Por: Justino1806  
+
+PREÂMBULO  
+Este projeto foi desenvolvido com dedicação e esforço como parte de um Trabalho de Conclusão de Curso (TCC). A intenção é permitir que outras pessoas possam aprender, se inspirar e até contribuir para o avanço da tecnologia, respeitando as condições abaixo.
+
+--------------------------------------------------------------------------------
+
+1. Direitos de Uso  
+Você tem o direito de usar, modificar e distribuir este projeto para fins pessoais, acadêmicos ou comerciais, desde que respeite as condições estabelecidas nesta licença.
+
+--------------------------------------------------------------------------------
+
+2. Uso Comercial  
+É necessário solicitar autorização prévia ao autor para qualquer uso comercial deste projeto, salvo quando o projeto for significativamente modificado (ver item 4).  
+A autorização pode ser solicitada diretamente ao autor através do repositório original ou por meio de contato oficial listado no projeto.
+
+--------------------------------------------------------------------------------
+
+3. Compartilhamento de Melhorias  
+Caso você modifique e distribua este projeto, sem alterar substancialmente sua estrutura ou propósito original (ex.: gerenciamento de estoque para cerealistas), você deve compartilhar as melhorias feitas.  
+Isso inclui:  
+- Publicar as alterações em um repositório público acessível.  
+- Atribuir créditos ao autor original, incluindo um link para o repositório oficial.  
+- Melhorias pequenas ou incrementais (ex.: otimização de rotas, ajustes de performance) também devem ser compartilhadas.
+
+--------------------------------------------------------------------------------
+
+4. Modificações Substanciais  
+Se o projeto for transformado em algo completamente novo, com mudanças significativas no propósito ou estrutura original (ex.: outro tipo de gerenciamento que não envolva cerealistas ou uma reescrita completa da API), as condições de compartilhamento e autorização comercial não se aplicam.  
+Mudanças significativas são definidas como alterações que resultem em um produto completamente diferente, tanto em funcionalidade quanto em objetivo.
+
+--------------------------------------------------------------------------------
+
+5. Reconhecimento e Créditos  
+Qualquer uso ou redistribuição deste projeto deve incluir:  
+- Créditos claros ao autor original.  
+- Um link para o repositório original: https://github.com/justino1806/API-GerenciamentoEstoque-Cerealista.  
+O reconhecimento deve ser mantido em qualquer documentação, interface do usuário ou material relacionado ao projeto derivado.
+
+--------------------------------------------------------------------------------
+
+6. Exclusão de Garantias  
+Este projeto é fornecido "como está", sem garantias de qualquer tipo, expressas ou implícitas, incluindo, mas não se limitando a, garantias de adequação a um propósito específico. O autor não será responsável por quaisquer danos, direta ou indiretamente, decorrentes do uso deste projeto.
+
+--------------------------------------------------------------------------------
+
+7. Contato  
+Para dúvidas, solicitações de uso comercial ou contribuições, entre em contato diretamente com o autor através do GitHub: https://github.com/justino1806.  
+
+--------------------------------------------------------------------------------
+
+Obrigado por respeitar os termos desta licença!
