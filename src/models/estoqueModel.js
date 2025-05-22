@@ -268,14 +268,16 @@ export async function atualizarProduto(id_produto, dados) {
 
 export async function deletarProduto(id_produto) {
     try {
-        // Primeiro deleta o relacionamento com produto_item
-        const queryProdutoItem = `DELETE FROM pedido_item WHERE id_produto = ?`;
-        await conexao.execute(queryProdutoItem, [id_produto]);
-
         // Depois deleta o relacionamento com movimentacao_estoque
         const queryMovimentacao = `DELETE FROM movimentacao_estoque WHERE id_produto = ?`;
         await conexao.execute(queryMovimentacao, [id_produto]);
 
+        // TODO: Fazer esquema pra apagar o pedido de acordo com a movimentaçao_estoque deletada
+
+        // Primeiro deleta o relacionamento com produto_item
+        const queryProdutoItem = `DELETE FROM pedido_item WHERE id_produto = ?`;
+        await conexao.execute(queryProdutoItem, [id_produto]);
+        
         // Depois deleta o registro do estoque
         const queryEstoque = `DELETE FROM estoque WHERE id_produto = ?`;
         await conexao.execute(queryEstoque, [id_produto]);
