@@ -28,7 +28,7 @@ app.use('/uploads', express.static('uploads'));
 
 // Rotas protegidas
 app.use('/api/estoque', verificaToken, estoqueRoutes);
-app.use('/api/funcionarios', verificaToken, verificaNivelAcesso(1), funcionariosRoutes);
+app.use('/api/funcionarios', verificaToken, /* verificaNivelAcesso(1), */ funcionariosRoutes);
 app.use('/api/categorias', verificaToken, categoriaRoutes);
 app.use('/api/participante', verificaToken, participanteRoutes);
 app.use('/api/pedidos', verificaToken, pedidosRoutes);

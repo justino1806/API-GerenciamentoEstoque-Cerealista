@@ -11,7 +11,7 @@ router.get('/produtos', listarProdutosController); // Listar produtos
 router.get('/produtos/:id', visualizarProdutoPorIdController) // Visualizar produto por ID
 router.post('/produtos', upload.single('imagemProduto'), adicionarProdutoController); // Adicionar novo produto com upload de imagem
 /* router.post('/produtos', adicionarProdutoController); */
-router.put('/:id', atualizarProdutoController); // Atualizar produto
+router.put('/produtos/:id', atualizarProdutoController); // Atualizar produto
 router.delete('/:id', deletarProdutoController); // Deletar produto
 
 
