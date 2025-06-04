@@ -12,7 +12,7 @@ router.get('/produtos/:id', visualizarProdutoPorIdController) // Visualizar prod
 router.post('/produtos', upload.single('imagemProduto'), adicionarProdutoController); // Adicionar novo produto com upload de imagem
 /* router.post('/produtos', adicionarProdutoController); */
 router.put('/produtos/:id', atualizarProdutoController); // Atualizar produto
-router.delete('/:id', deletarProdutoController); // Deletar produto
+router.delete('/produtos/:id', deletarProdutoController); // Deletar produto
 
 
 export default router;
