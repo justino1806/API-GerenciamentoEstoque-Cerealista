@@ -476,3 +476,43 @@ erDiagram
 3. Participante: Requer deleção de:
    - Pedidos
    - Movimentações relacionadas
+
+## ✍️ Criadores
+
+Projeto realizado por:
+
+<table align="center">
+  <tr>
+    <td align="center">
+      <a href="https://github.com/GABRIELLILAIS">
+        <img src="https://avatars.githubusercontent.com/u/169855181?v=4" width="100" alt="Gabrielli">
+        <br>
+        <sub><b>Babrielli Lais</b></sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/justino1806">
+        <img src="https://avatars.githubusercontent.com/u/54010279?v=4" width="100" alt="Justino Reis">
+        <br>
+        <sub><b>Justino Reis</b></sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/IVANSANTOSDELIMA">
+        <img src="https://avatars.githubusercontent.com/u/168492460?v=4" width="100" alt="Ivan Santos">
+        <br>
+        <sub><b>Ivan Santos</b></sub>
+      </a>
+    </td>
+  </tr>
+  <tr>
+   <td align="center">
+    <sub><p> Banco de dados,idealização e coordenação,QA</sub>
+   </td>
+   <td align="center">
+    <sub><p> Backend, QA, Integração</sub>
+   </td>
+   <td align="center">
+    <sub><p> Frontend, QA</sub>
+   </td>
+</table>
